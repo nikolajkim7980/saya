@@ -11,7 +11,7 @@ savedMoney = 0 # amount of money saved based on water rates
 def solve(x, y, tier, family):
     #orange county
     print("Current profits: $" + str(y-x))
-    lbl_currentProfits['text'] = "Current Profits: $" + str(y-x)
+    lbl_currentProfits['text'] = "Current Profits: $" + str(y-x) # update label for current profits
 
     if family == "Single Family":
         savedMoney = singleFamilyCalcuator(tier)
@@ -19,9 +19,9 @@ def solve(x, y, tier, family):
         savedMoney = multiFamilyCalculator(tier)
 
     print("Money Saved with Saya: $" + str(savedMoney))
-    lbl_moneySaved['text'] = "Money Saved with Saya: $" + str(savedMoney)
+    lbl_moneySaved['text'] = "Money Saved with Saya: $" + str(savedMoney) # update label for saved money
     print("Resulting profits: $" + str(y-x + savedMoney))
-    lbl_resultingProfits['text'] = "Resulting Profits: $" + str(y-x + savedMoney)
+    lbl_resultingProfits['text'] = "Resulting Profits: $" + str(y-x + savedMoney) # update label for resulting profits
 
 
 def singleFamilyCalcuator(tier):
