@@ -20,13 +20,11 @@ frame4.pack()
 
 sfMonthlyBill = 70 # monthly bill for single families, calculate through saya's bill calcuator
 mfMonthlyBill = 90 # monthly bill for multi families,  calculate through saya's bill calcuator
-progBarLength = 0
 
 # values given to us by saya, show how much water saya can save through fixing leaks/behavior/hot water
 Leaks = 20
 Behavior = 30
 HotWater = 40
-
 
 
 def runCalc(family):
