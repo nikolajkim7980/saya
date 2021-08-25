@@ -20,11 +20,13 @@ frame4.pack()
 
 sfMonthlyBill = 70 # monthly bill for single families, calculate through saya's bill calcuator
 mfMonthlyBill = 90 # monthly bill for multi families,  calculate through saya's bill calcuator
+progBarLength = 0
 
 # values given to us by saya, show how much water saya can save through fixing leaks/behavior/hot water
-Leaks = 20
+Leaks = 50
 Behavior = 30
 HotWater = 40
+
 
 
 def runCalc(family):
@@ -36,41 +38,47 @@ def runCalc(family):
         runMultiFamily()
 
 
-def showSuggestions(biggestIssue):
+def showSuggestions(biggestIssue, monthyBill, thisTier):
     # frame 4, show suggestions based on biggest issue
-    lbl_test = tk.Label(frame4, text=str(biggestIssue), font=fontStyle)
+    frame3.destroy()
+    window.title("Monthly Bill: $" + str(monthyBill) +" - Tier: " + str(thisTier))
+    lbl_test = tk.Label(frame4, text="Your biggest issue is " + str(biggestIssue), font=fontStyle)
     lbl_test.grid(column=0, row=0)
     lbl_test = tk.Label(frame4, text="havent gotten code for actual behavior suggestion", font=fontStyle)
     lbl_test.grid(column=0, row=1)
 
 
-def displayStats(thisTier):
+def displayStats(thisTier, monthlyBill):
     # frame 3, create new screen that displays water bill, tier, and the user's biggest issue
     frame2.destroy()
     window.title("Analysis")
-    lbl_monthlyBill = tk.Label(frame3, text="Your Monthly Water Bill is $" + str(sfMonthlyBill), font=fontStyle)
+    lbl_monthlyBill = tk.Label(frame3, text="Your Monthly Water Bill is $" + str(monthlyBill), font=fontStyle)
     lbl_monthlyBill.grid(column=0, row=0)
-    lbl_tier = tk.Label(frame3, text="Your current tier is: " + str(thisTier), font=fontStyle)
+    lbl_tier = tk.Label(frame3, text="Your current tier is " + str(thisTier), font=fontStyle)
     lbl_tier.grid(column=0, row=1)
+    lbl_status = tk.Label(frame3, text="", font=fontStyle)
+    lbl_status.grid(column=0, row=2)
     if thisTier <= 2:
-        return
+        lbl_status['text'] = "Way to go! You have been very efficient."
     else:
-        lbl_suggestion = tk.Label(frame3, text="", font=fontStyle)
-        lbl_suggestion.grid(column=0, row=2)
-        # find fixing which method will save them the most water
-        biggestIssue=""
-        if Leaks > Behavior and Leaks > HotWater:
-            lbl_suggestion['text'] = "Leaks are your biggest issue. Here are some steps to solve it!"
-            biggestIssue="Leaks"
-        elif Behavior > Leaks and Behavior > HotWater:
-            lbl_suggestion['text'] = "Behavior is your biggest issue. Here are some steps to solve it!"
-            biggestIssue = "Behavior"
-        else:
-            lbl_suggestion['text'] = "Hot Water is your biggest issue. Here are some steps to solve it!"
-            biggestIssue = "HotWater"
+        lbl_status['text'] = "Please take a look at how to minimize your water usage!"
 
-        btn_sf = tk.Button(frame3, text="See the Steps!", command=lambda: showSuggestions(biggestIssue), pady=10, font=fontStyle)
-        btn_sf.grid(column=0, row=3)
+    # find which method will save them the most water
+    lbl_suggestion = tk.Label(frame3, text="", font=fontStyle)
+    lbl_suggestion.grid(column=0, row=3)
+    biggestIssue = ""
+    if Leaks > Behavior and Leaks > HotWater:
+        lbl_suggestion['text'] = "Leaks are your biggest issue. Here are some steps to solve it!"
+        biggestIssue = "Leaks"
+    elif Behavior > Leaks and Behavior > HotWater:
+        lbl_suggestion['text'] = "Behavior is your biggest issue. Here are some steps to solve it!"
+        biggestIssue = "Behavior"
+    else:
+        lbl_suggestion['text'] = "Hot Water is your biggest issue. Here are some steps to solve it!"
+        biggestIssue = "HotWater"
+
+    btn_sf = tk.Button(frame3, text="See the Steps!", command=lambda: showSuggestions(biggestIssue, monthlyBill, thisTier), pady=10, font=fontStyle)
+    btn_sf.grid(column=0, row=4)
 
 
 def tier(totalUsage, monthlyBill, singleFamily):
@@ -81,7 +89,8 @@ def tier(totalUsage, monthlyBill, singleFamily):
     else:
         monthlyBill = mfMonthlyBill
     cost = float(totalUsage) * 0.006
-    usagePercent = [(monthlyBill - cost) // monthlyBill] * 100
+    usagePercent = (monthlyBill - cost) / monthlyBill * 100
+    print(usagePercent)
     thisTier = 0
     if usagePercent <= 40:
         thisTier = 1
@@ -92,7 +101,7 @@ def tier(totalUsage, monthlyBill, singleFamily):
     else:
         thisTier = 4
 
-    displayStats(thisTier)
+    displayStats(thisTier, monthlyBill)
 
 
 def runSingleFamily():
