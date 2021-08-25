@@ -18,8 +18,8 @@ frame3.pack()
 frame4 = Frame(window, pady=15) # display suggestions for biggest issue
 frame4.pack()
 
-sfMonthlyBill = 70 # calculate through saya's bill calcuator
-mfMonthlyBill = 90 # calculate through saya's bill calcuator
+sfMonthlyBill = 70 # monthly bill for single families, calculate through saya's bill calcuator
+mfMonthlyBill = 90 # monthly bill for multi families,  calculate through saya's bill calcuator
 progBarLength = 0
 
 # values given to us by saya, show how much water saya can save through fixing leaks/behavior/hot water
@@ -75,8 +75,13 @@ def displayStats(thisTier):
         btn_sf.grid(column=0, row=3)
 
 
-def tier(totalUsage, monthlyBill):
+def tier(totalUsage, monthlyBill, singleFamily):
     # calculate tier - from ayushi's code
+    # if singleFamily is true, the tier function will use sfMonthlyBill. otherwise, it will use the mfMonthlyBill
+    if singleFamily:
+        monthlyBill = sfMonthlyBill
+    else:
+        monthlyBill = mfMonthlyBill
     cost = float(totalUsage) * 0.006
     usagePercent = [(monthlyBill - cost) // monthlyBill] * 100
     thisTier = 0
@@ -99,7 +104,7 @@ def runSingleFamily():
     lbl_sf.grid(column=0, row=0)
     ent_sf = Entry(frame2, font=fontStyle)
     ent_sf.grid(column=0, row=1)
-    btn_sf = tk.Button(frame2, text="Calculate!", command= lambda: tier(ent_sf.get(), sfMonthlyBill), font=fontStyle)
+    btn_sf = tk.Button(frame2, text="Calculate!", command= lambda: tier(ent_sf.get(), sfMonthlyBill, True), font=fontStyle)
     btn_sf.grid(column=0, row=2)
 
 
@@ -110,7 +115,7 @@ def runMultiFamily():
     lbl_mf.grid(column=0, row=0)
     ent_sf = Entry(frame2, font=fontStyle)
     ent_sf.grid(column=0, row=1)
-    btn_sf = tk.Button(frame2, text="Calculate!", command=lambda: tier(ent_sf.get(), mfMonthlyBill), font=fontStyle)
+    btn_sf = tk.Button(frame2, text="Calculate!", command=lambda: tier(ent_sf.get(), mfMonthlyBill, False), font=fontStyle)
     btn_sf.grid(column=0, row=2)
 
 
