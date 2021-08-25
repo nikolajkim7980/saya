@@ -29,13 +29,6 @@ HotWater = 40
 
 
 
-def runCalc(family):
-    # if the user has chosen single family, we will calculate their water bill using single family rates. vice versa.
-    frame1.destroy()
-    if family == "Single Family":
-        runSingleFamily()
-    else:
-        runMultiFamily()
 
 
 def showSuggestions(biggestIssue, monthyBill, thisTier):
@@ -124,6 +117,14 @@ def runMultiFamily():
     ent_sf.grid(column=0, row=1)
     btn_sf = tk.Button(frame2, text="Calculate!", command=lambda: tier(ent_sf.get(), mfMonthlyBill, False), font=fontStyle)
     btn_sf.grid(column=0, row=2)
+
+def runCalc(family):
+    # if the user has chosen single family, we will calculate their water bill using single family rates. vice versa.
+    frame1.destroy()
+    if family == "Single Family":
+        runSingleFamily()
+    else:
+        runMultiFamily()
 
 
 def startProgram():
