@@ -97,6 +97,8 @@ def showSuggestions(goal, biggestIssue):
             break
 
     # print all of the suggestions
+    # this is where im having my issues. im creating the buttons/checkboxes within this while loop. the problem is i need to pass the gallons variable to increaseProgressBar()
+    # and the issue is the gallons variable gets rewritten every time. is it even possible to make it so that each checkbox can increaseProgressBar with a unique index?
     i = 0
     while i < len(suggestionsKeys):
         gallons = suggestionsKeys[i] # how many gallons the suggestion will save the user
